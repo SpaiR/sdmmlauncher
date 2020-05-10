@@ -10,8 +10,11 @@ use std::io::{Read, Seek, SeekFrom, Write};
 use std::path::PathBuf;
 use std::process::Command;
 
+use self_update::auto_update;
+
 mod archive;
 mod download;
+mod self_update;
 
 const EDITOR_HOME_DIR_NAME: &str = ".strongdmm";
 const LOCAL_VERSION_FILE_NAME: &str = "version";
@@ -26,6 +29,7 @@ const DOWNLOAD_FILE_NAME: &str = "strongdmm-windows.zip";
 
 fn main() {
     print_logo();
+    auto_update();
 
     println!("Checking for updates...");
 
@@ -52,7 +56,7 @@ fn main() {
         println!("Installing downloaded version...");
 
         archive::unzip(zip_file, &editor_bin_dir_path)
-            .expect("downloaded archive should installed");
+            .expect("downloaded archive should be installed");
 
         update_local_version(&mut local_version_file, &remote_version);
     }

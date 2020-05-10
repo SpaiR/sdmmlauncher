@@ -12,6 +12,7 @@ dirs = "2.0.2"
 indicatif = "0.14.0"
 tempfile = "3.1.0"
 zip = "0.5"
+self_update = "0.14"
 
 [target.'cfg(linux)'.dependencies]
 openssl = { version = "0.10.4", features = ["vendored"] }
