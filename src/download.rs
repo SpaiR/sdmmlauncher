@@ -43,9 +43,11 @@ pub fn download_with_pb(url: &str) -> Result<File, String> {
     let request = client.get(url.as_str());
 
     let pb = ProgressBar::new(total_size);
-    pb.set_style(ProgressStyle::default_bar()
-        .template("{spinner:.green} [{elapsed_precise}] [{bar:40.cyan/blue}] {bytes}/{total_bytes} ({eta})")
-        .progress_chars("#>-"));
+    pb.set_style(
+        ProgressStyle::default_bar()
+            .template("[{elapsed_precise}] [{bar:40.cyan/blue}] {bytes}/{total_bytes} ({eta})")
+            .progress_chars("#>-"),
+    );
 
     let mut source = DownloadProgress {
         progress_bar: pb,

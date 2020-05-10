@@ -6,7 +6,7 @@ extern crate zip;
 use std::env;
 use std::fs;
 use std::fs::{File, OpenOptions};
-use std::io::{Read, Write};
+use std::io::{Read, Seek, SeekFrom, Write};
 use std::path::PathBuf;
 use std::process::Command;
 
@@ -30,7 +30,7 @@ fn main() {
     println!("Checking for updates...");
 
     let editor_home_dir_path = get_editor_home_dir_path();
-    let editor_bin_dir_path = get_editor_editor_bin_dir_path(&editor_home_dir_path);
+    let editor_bin_dir_path = get_editor_bin_dir_path(&editor_home_dir_path);
 
     let mut local_version_file = get_local_version_file(&editor_home_dir_path);
     let local_version = read_local_version(&mut local_version_file);
@@ -83,7 +83,7 @@ fn get_editor_home_dir_path() -> PathBuf {
     editor_home_dir_path
 }
 
-fn get_editor_editor_bin_dir_path(editor_home_dir_path: &PathBuf) -> PathBuf {
+fn get_editor_bin_dir_path(editor_home_dir_path: &PathBuf) -> PathBuf {
     let editor_bin_dir_path = get_child_path(&editor_home_dir_path, "bin");
 
     if !editor_bin_dir_path.exists() {
@@ -98,9 +98,9 @@ fn get_local_version_file(editor_home_dir_path: &PathBuf) -> File {
     let version_file_path = get_child_path(editor_home_dir_path, LOCAL_VERSION_FILE_NAME);
 
     OpenOptions::new()
+        .create(true)
         .read(true)
         .write(true)
-        .create(true)
         .open(version_file_path)
         .expect("local version file should be read or created")
 }
@@ -155,6 +155,8 @@ fn download_remote_version(remote_version: &str) -> File {
 }
 
 fn update_local_version(local_version_file: &mut File, new_version: &str) {
+    local_version_file.seek(SeekFrom::Start(0)).unwrap();
+    local_version_file.set_len(0).unwrap();
     local_version_file.write(new_version.as_bytes()).unwrap();
 }
 
