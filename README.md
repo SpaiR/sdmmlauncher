@@ -1,5 +1,8 @@
 # sdmmlauncher
 
+[![Build Status](https://travis-ci.org/SpaiR/sdmmlauncher.svg?branch=master)](https://travis-ci.org/SpaiR/sdmmlauncher)
+[![GitHub release](https://img.shields.io/github/release/SpaiR/sdmmlauncher.svg?label=sdmmlauncher)](https://github.com/SpaiR/sdmmlauncher/releases/latest)
+
 Small, rust-based launcher for [StrongDMM](https://github.com/SpaiR/StrongDMM) map editor.
 
 ### How to Build
